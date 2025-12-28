@@ -79,6 +79,30 @@ body {
    Used for Dropdowns and Floating Menus
 */
 
+/* Staggered Card Entry Animation (New) */
+@keyframes card-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-card-enter {
+  animation: card-enter 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+
+/* Utility for text truncation lines */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 /* Dark Mode Apple Glass - Floating Menus */
 .apple-glass-dark {
   background-color: rgba(30, 41, 59, 0.65);

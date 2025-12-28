@@ -1,7 +1,7 @@
 // 数据验证工具
 
-import { ERROR_MESSAGES } from "./auth";
-import { Category, SubCategory, LinkItem } from "../../../types";
+import { ERROR_MESSAGES } from "./authHelpers";
+import { Category } from "../../../src/types";
 
 // 验证分类数据
 export function validateCategory(data: any): { valid: boolean; message?: string } {

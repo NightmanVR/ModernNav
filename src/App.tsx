@@ -11,6 +11,7 @@ import {
   Github,
 } from "lucide-react";
 import * as Icons from "lucide-react";
+import { SmartIcon } from "./components/SmartIcon";
 
 import { SearchBar } from "./components/SearchBar";
 import { GlassCard } from "./components/GlassCard";
@@ -237,35 +238,7 @@ const App: React.FC = () => {
     setActiveSubCategoryId(subId);
   };
 
-  const renderIcon = (iconValue: string | undefined) => {
-    const defaultIcon = <Icons.Link size={20} strokeWidth={1.5} />;
-    if (!iconValue) return defaultIcon;
 
-    if (iconValue.startsWith("http") || iconValue.startsWith("data:")) {
-      return (
-        <img
-          src={iconValue}
-          alt="icon"
-          className="w-6 h-6 object-contain drop-shadow-md rounded-md"
-          onError={(e) => {
-            (e.target as HTMLImageElement).style.display = "none";
-          }}
-        />
-      );
-    }
-
-    // @ts-ignore
-    const IconComponent = Icons[iconValue];
-    if (IconComponent) {
-      return <IconComponent size={20} strokeWidth={1.5} />;
-    }
-
-    return (
-      <span className="text-xl leading-none filter drop-shadow-md">
-        {iconValue}
-      </span>
-    );
-  };
 
   const toggleLanguage = () => {
     setLanguage(language === "en" ? "zh" : "en");
@@ -573,15 +546,21 @@ const App: React.FC = () => {
                 ></div>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
-                {visibleSubCategory.items.map((link) => (
+              <div 
+                key={visibleSubCategory.id} // Force re-render on sub-category change to replay animations
+                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4"
+              >
+                {visibleSubCategory.items.map((link, index) => (
                   <GlassCard
                     key={link.id}
                     hoverEffect={true}
                     opacity={cardOpacity}
                     themeMode={themeMode}
                     onClick={() => window.open(link.url, "_blank")}
-                    className="h-24 flex flex-col items-center justify-center text-center p-2 relative group"
+                    className="h-24 flex flex-col items-center justify-center text-center p-2 relative group animate-card-enter"
+                    style={{
+                      animationFillMode: 'backwards'
+                    }}
                     title={
                       link.description
                         ? `${link.description}\n${link.url}`
@@ -593,7 +572,11 @@ const App: React.FC = () => {
                         isDark ? "text-white/90" : "text-slate-700"
                       }`}
                     >
-                      {renderIcon(link.icon)}
+                      <SmartIcon 
+                        icon={link.icon} 
+                        size={24} 
+                        imgClassName="w-6 h-6 object-contain drop-shadow-md rounded-md"
+                      />
                     </div>
                     <span
                       className={`text-[12px] font-medium truncate w-full px-1 transition-colors duration-300 ${

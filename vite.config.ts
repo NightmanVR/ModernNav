@@ -1,8 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { VitePWA } from "vite-plugin-pwa";
 import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
+import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,7 +10,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
+      includeAssets: ["favicon.svg"],
       manifest: {
         name: "ModernNav - 现代导航",
         short_name: "ModernNav",
@@ -20,14 +20,14 @@ export default defineConfig({
         display: "standalone",
         icons: [
           {
-            src: "pwa-192x192.png",
+            src: "favicon.svg",
             sizes: "192x192",
-            type: "image/png",
+            type: "image/svg+xml",
           },
           {
-            src: "pwa-512x512.png",
+            src: "favicon.svg",
             sizes: "512x512",
-            type: "image/png",
+            type: "image/svg+xml",
           },
         ],
       },
@@ -36,6 +36,11 @@ export default defineConfig({
   css: {
     postcss: {
       plugins: [tailwindcss(), autoprefixer()],
+    },
+  },
+  resolve: {
+    alias: {
+      "@": "/src",
     },
   },
   build: {
@@ -47,6 +52,18 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes("node_modules")) {
+            if (id.includes("lucide-react")) {
+              return "ui-vendor";
+            }
+            if (
+              id.includes("/react/") || 
+              id.includes("/react-dom/") || 
+              id.includes("/react-is/") ||
+              id.includes("/scheduler/") ||
+              id.includes("/prop-types/")
+            ) {
+              return "react-vendor";
+            }
             return "vendor";
           }
         },

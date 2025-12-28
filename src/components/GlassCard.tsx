@@ -16,6 +16,7 @@ export const GlassCard: React.FC<GlassCardProps> = ({
   onClick,
   opacity = 0.1,
   themeMode = ThemeMode.Dark,
+  style, // Destructure style from props
   ...props
 }) => {
   const isDark = themeMode === ThemeMode.Dark;
@@ -77,6 +78,7 @@ export const GlassCard: React.FC<GlassCardProps> = ({
         backgroundColor: baseColor,
         backdropFilter: `blur(${blurAmount}px) saturate(${saturation}%)`,
         WebkitBackdropFilter: `blur(${blurAmount}px) saturate(${saturation}%)`,
+        ...style, // Merge external styles (e.g. animationDelay)
       }}
       {...props}
     >
