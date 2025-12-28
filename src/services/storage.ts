@@ -425,7 +425,7 @@ export const storageService = {
       storageService._pendingSync = true;
       storageService.notify(
         "error",
-        `Cloud sync failed: ${e.message || "Unknown error"}. Saved locally.`
+        `Cloud sync failed: ${(e as Error).message || "Unknown error"}. Saved locally.`
       );
     } finally {
       storageService.notifySyncStatus(false);

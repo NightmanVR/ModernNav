@@ -1,7 +1,14 @@
-import React, { useMemo } from "react";
-import { Search, Smile } from "lucide-react";
-import * as Icons from "lucide-react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
+
+// Cache for dynamically loaded icon modules
+let iconsModuleCache: any = null;
+
+async function loadIconsModule() {
+  if (iconsModuleCache) return iconsModuleCache;
+  iconsModuleCache = await import("lucide-react");
+  return iconsModuleCache;
+}
 
 // Categorized Suggestions
 const SUGGESTED_ICONS = [
@@ -106,19 +113,36 @@ export const IconPicker: React.FC<IconPickerProps> = ({
   pickerRef,
 }) => {
   const { t } = useLanguage();
+  const [iconsModule, setIconsModule] = useState<any | null>(null);
+
+  // Load icons module once
+  useEffect(() => {
+    let mounted = true;
+    if (show && !iconsModule) {
+      loadIconsModule().then((mod) => {
+        if (mounted) setIconsModule(mod);
+      });
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [show, iconsModule]);
 
   const filteredIconNames = useMemo(() => {
     if (!searchTerm.trim()) return SUGGESTED_ICONS;
     const search = searchTerm.toLowerCase();
-    return Object.keys(Icons)
+
+    if (!iconsModule) return SUGGESTED_ICONS;
+
+    return Object.keys(iconsModule)
       .filter(
         (name) =>
           name.toLowerCase().includes(search) &&
           name !== "createLucideIcon" &&
-          typeof (Icons as any)[name] === "function"
+          typeof (iconsModule as any)[name] === "function"
       )
       .slice(0, 48);
-  }, [searchTerm]);
+  }, [searchTerm, iconsModule]);
 
   if (!show) return null;
 
@@ -128,10 +152,22 @@ export const IconPicker: React.FC<IconPickerProps> = ({
       ref={pickerRef}
     >
       <div className="relative mb-3">
-        <Search
-          size={14}
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
           className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500"
-        />
+        >
+          <path
+            d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
         <input
           type="text"
           value={searchTerm}
@@ -148,7 +184,7 @@ export const IconPicker: React.FC<IconPickerProps> = ({
           </div>
           <div className="grid grid-cols-6 gap-1.5">
             {filteredIconNames.map((name) => {
-              const IconComp = (Icons as any)[name];
+              const IconComp = iconsModule ? (iconsModule as any)[name] : null;
               return (
                 <button
                   key={name}

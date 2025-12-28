@@ -61,10 +61,10 @@ To test the Backend API and D1 storage locally, you need `wrangler`.
     npm install -D wrangler
     ```
 
-2.  Initialize local database schema (using the text file):
+2.  Initialize local database schema:
 
     ```bash
-    npx wrangler d1 execute modern-nav-db --local --file=./schema.txt
+    npx wrangler d1 execute modern-nav-db --local --file=./schema.sql
     ```
 
 3.  Run the Cloudflare Pages simulation:
@@ -98,7 +98,7 @@ Push this code to your GitHub or GitLab repository.
 1.  After the project is created, go to **Workers & Pages** > **D1**.
 2.  Click **Create** to create a database (e.g., `modern-nav-db`).
 3.  Go to the database **Console** tab.
-4.  Open `schema.txt` in your project, copy the content, paste it into the console, and click **Execute**.
+4.  Open `schema.sql` in your project, copy the content, paste it into the console, and click **Execute**.
 5.  Go back to your Pages project settings: **Settings** > **Functions** > **D1 Database Bindings**.
 6.  Add a binding:
     - **Variable name:** `DB` (Must be exact)
@@ -122,37 +122,48 @@ Push this code to your GitHub or GitLab repository.
 ## 📂 Project Structure
 
 ```text
-├── components/                 # React UI Components
-│   ├── settings/               # Settings Modal Tabs
-│   │   ├── AppearanceTab.tsx   # Appearance settings
-│   │   ├── AuthScreen.tsx      # Login/Verification screen
-│   │   ├── ContentTab.tsx      # Content management (Categories/Links)
-│   │   ├── DataTab.tsx         # Data import/export
-│   │   └── SecurityTab.tsx     # Security settings (Change password)
-│   ├── CategoryNav.tsx         # Main Navigation Bar
-│   ├── GlassCard.tsx           # Frosted Glass Card Component
-│   ├── IconPicker.tsx          # Icon Selector
-│   ├── LinkManagerModal.tsx    # Settings Modal Container
-│   ├── SearchBar.tsx           # Aggregated Search Bar
-│   ├── SyncIndicator.tsx       # Cloud Sync Status Indicator
-│   └── Toast.tsx               # Notification Component
-├── contexts/                   # React Context
-│   └── LanguageContext.tsx     # Internationalization State
-├── functions/api/              # Cloudflare Pages Functions (Backend API)
-│   ├── auth.ts                 # Authentication Logic (Login/Refresh/Update)
-│   ├── bootstrap.ts            # Initial Data Load (Read D1)
-│   └── update.ts               # Data Persistence (Write D1)
-├── hooks/                      # Custom Hooks
-│   └── useCategoryDragDrop.ts  # Complex Drag & Drop Logic Encapsulation
-├── services/                   # Business Logic Services
-│   └── storage.ts              # Core Data Layer (Cache, Sync, Crypto, API)
-├── utils/                      # Utilities
-│   └── color.ts                # Dominant Color Extraction Algorithm
-├── App.tsx                     # Main Application Component
-├── constants.tsx               # Default Constants
-├── schema.sql                  # Database Initialization SQL
-├── types.ts                    # TypeScript Type Definitions
-└── ...
+├── public/                     # Static Assets
+│   ├── favicon.svg             # Favicon
+│   └── fonts/                  # Local Fonts
+├── functions/api/              # Cloudflare Pages Functions (Backend)
+│   ├── auth.ts                 # Auth Endpoint (Login/Refresh/Update)
+│   ├── bootstrap.ts            # Bootstrap Endpoint (Read D1)
+│   ├── update.ts               # Sync Endpoint (Write D1)
+│   └── utils/                  # Backend Utilities (Auth/Validation)
+├── src/                        # Frontend Source Code
+│   ├── assets/                 # Assets
+│   ├── components/             # React UI Components
+│   │   ├── settings/           # Settings Modal Components
+│   │   │   ├── AppearanceTab.tsx   # Appearance Tab
+│   │   │   ├── AuthScreen.tsx      # Auth/Login Screen
+│   │   │   ├── ContentTab.tsx      # Content Management Tab
+│   │   │   ├── DataTab.tsx         # Data Backup/Restore Tab
+│   │   │   └── SecurityTab.tsx     # Security Settings Tab
+│   │   ├── CategoryNav.tsx     # Navigation Bar
+│   │   ├── GlassCard.tsx       # Glass Effect Card
+│   │   ├── IconPicker.tsx      # Icon Selector
+│   │   ├── LinkManagerModal.tsx # Settings Modal Container
+│   │   ├── SearchBar.tsx       # Search Bar
+│   │   ├── SyncIndicator.tsx   # Sync Status Indicator
+│   │   └── Toast.tsx           # Toast Notification
+│   ├── contexts/               # Global State
+│   │   └── LanguageContext.tsx # i18n Context
+│   ├── hooks/                  # Custom Hooks
+│   │   └── useCategoryDragDrop.ts # Drag & Drop Logic
+│   ├── services/               # Services
+│   │   └── storage.ts          # Storage & Sync Service (Core)
+│   ├── types/                  # TypeScript Types
+│   │   └── index.ts            # Type Definitions
+│   ├── utils/                  # Frontend Utilities
+│   │   └── color.ts            # Color Extraction
+│   ├── App.tsx                 # Root Component
+│   ├── constants.tsx           # App Constants
+│   ├── index.tsx               # Entry Point
+│   └── index.css               # Global Styles (Tailwind)
+├── index.html                  # HTML Entry
+├── vite.config.ts              # Vite Configuration
+├── tsconfig.json               # TypeScript Configuration
+└── wrangler.toml               # Cloudflare Configuration
 ```
 
 ## 📄 License
